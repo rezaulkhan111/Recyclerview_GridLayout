@@ -1,5 +1,6 @@
 package com.demotxt.myapp.recyclerview;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,7 +12,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     List<Book> lstBook ;
-
+    RecyclerView myrv;
+    Configuration orientation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,9 +26,16 @@ public class MainActivity extends AppCompatActivity {
         lstBook.add(new Book("The Martian","Categorie Book","Description book",R.drawable.themartian));
         lstBook.add(new Book("He Died with...","Categorie Book","Description book",R.drawable.hediedwith));
 
-        RecyclerView myrv = (RecyclerView) findViewById(R.id.recyclerview_id);
+        myrv = (RecyclerView) findViewById(R.id.recyclerview_id);
         RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(this,lstBook);
-        myrv.setLayoutManager(new GridLayoutManager(this,2));
+       // myrv.setLayoutManager(new GridLayoutManager(this,2));
+        orientation = new Configuration();
+        if(this.myrv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            myrv.setLayoutManager(new GridLayoutManager(this, 2));
+        } else if (this.myrv.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            myrv.setLayoutManager(new GridLayoutManager(this, 4));
+        }
+
         myrv.setAdapter(myAdapter);
 
 
